@@ -57,6 +57,7 @@ function consultarAPI(ciudad, pais) {
 	fetch(url)
 		.then((respuesta) => respuesta.json())
 		.then((datos) => {
+			limpiarHTML();
 			// !En caso de que no exista la ciudad
 			if (datos.cod === "404") {
 				mostrarError(
@@ -80,6 +81,7 @@ function actual() {
 			fetch(url)
 				.then((respuesta) => respuesta.json())
 				.then((datos) => {
+					limpiarHTML();
 					// !En caso de que no exista la ciudad
 					if (datos.cod === "404") {
 						mostrarError(
@@ -112,7 +114,6 @@ function actual() {
 }
 
 function mostarClima(datos) {
-	console.log(datos);
 	const {
 		name,
 		main: { temp, temp_max, temp_min },
@@ -121,7 +122,7 @@ function mostarClima(datos) {
 
 	const actual = document.createElement("p");
 	actual.innerHTML = `Actualmente en ${name} la temperatura es ${centigrados} &#8451;`;
-	actual.classList.add("font-bold", "text-6xl");
+	actual.classList.add("font-bold", "text-4xl");
 
 	const resultadoDiv = document.createElement("div");
 	resultadoDiv.classList.add("text-center", "text-white");
