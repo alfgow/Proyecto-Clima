@@ -54,26 +54,32 @@ function consultarAPI(ciudad, pais) {
 	const appID = "abbe448241988abc957e3654e3deac44";
 	const url = `https://api.openweathermap.org/data/2.5/weather?q=${ciudad},${pais}&appid=${appID}`;
 
-	fetch(url)
-		.then((respuesta) => respuesta.json())
-		.then((datos) => {
-			limpiarHTML();
-			// !En caso de que no exista la ciudad
-			if (datos.cod === "404") {
-				mostrarError(
-					`La ciudad: "${ciudad}", parece no existir, por favor verifique`
-				);
-			}
+	spinner();
 
-			// !Mostramos datos
-			mostarClima(datos);
-		});
+	setTimeout(() => {
+		fetch(url)
+			.then((respuesta) => respuesta.json())
+			.then((datos) => {
+				limpiarHTML();
+				// !En caso de que no exista la ciudad
+				if (datos.cod === "404") {
+					mostrarError(
+						`La ciudad: "${ciudad}", parece no existir, por favor verifique`
+					);
+				}
+
+				// !Mostramos datos
+				mostarClima(datos);
+			});
+	}, 1000);
 }
 
 function actual() {
 	navigator.geolocation.getCurrentPosition((position) => {
 		const { latitude, longitude } = position.coords;
 		// Show a map centered at latitude / longitude.
+		spinner();
+
 		setTimeout(() => {
 			const appID = "abbe448241988abc957e3654e3deac44";
 			const url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${appID}`;
@@ -109,7 +115,7 @@ function actual() {
 						document.createElement("p");
 					titulo.innerText = `En ${name} la temperatura es ${centigrados}°C`;
 				});
-		}, 200);
+		}, 500);
 	});
 }
 
@@ -135,6 +141,22 @@ function limpiarHTML() {
 	while (resultado.firstChild) {
 		resultado.removeChild(resultado.firstChild);
 	}
+}
+
+function spinner() {
+	limpiarHTML();
+
+	const divSpinner = document.createElement("div");
+	divSpinner.classList.add("sk-chase");
+	divSpinner.innerHTML = `
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    <div class="sk-chase-dot"></div>
+    `;
+	resultado.appendChild(divSpinner);
 }
 
 actual();
