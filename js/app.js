@@ -96,9 +96,9 @@ function actual() {
 							temp_min,
 						},
 					} = datos;
-					const centigrados = parseInt(
+					const centigrados = (
 						temp - 273.15
-					);
+					).toFixed(1);
 					const titulo =
 						document.querySelector(
 							"#titulo"
@@ -117,7 +117,7 @@ function mostarClima(datos) {
 		name,
 		main: { temp, temp_max, temp_min },
 	} = datos;
-	const centigrados = temp - 273.15;
+	const centigrados = (temp - 273.15).toFixed(1);
 
 	const actual = document.createElement("p");
 	actual.innerHTML = `Actualmente en ${name} la temperatura es ${centigrados} &#8451;`;
